@@ -2,9 +2,11 @@ import React from 'react';
 
 function Results(props)
 {
+  let body = JSON.stringify(props.bodyData);
     return (
-        <section>
-          <pre>{props.data ? JSON.stringify(props.data, undefined, 2) : null}
+        <section data-testid='results'>
+          <pre>{props.method === 'GET' ? props.data.name
+          : props.method === 'POST' ? body : props.method === 'PUT' ? body : props.method === 'DELETE' ? 'Deleted' : <div className='loader'></div>}
           </pre>
         </section>
       );   

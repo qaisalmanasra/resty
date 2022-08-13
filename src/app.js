@@ -9,30 +9,29 @@ import Form from './components/form';
 import Results from './components/results';
 
 function App() {
+  const [data, setData] = useState(null);
+  const [reqParams, setReqParams] = useState({});
+  const [bodyData, setBodyData] = useState({});
 
-  const[state,setState]=useState({data: null,requestParams: {},})
-  const callApi=(requestParams)=>{
-    const data = {
-      count: 2,
-      results: [
-        {name: 'fake thing 1', url: 'http://fakethings.com/1'},
-        {name: 'fake thing 2', url: 'http://fakethings.com/2'},
-      ],
+  const callApi = async (reqParams, bodyParams) => {
+    const response = await fetch(reqParams.url);
+    const data = await response.json();
+    setData(data);
+    setReqParams(reqParams);
+    const body = {
+      body: bodyParams.body,
     };
-    setState({data, requestParams});
+    setBodyData(body);
   }
-
   return (
-    <div>
-        <Header />
-            <div>Request Method: {state.requestParams.method}</div>
-                <div>URL: {state.requestParams.url}</div>
-                <Form callApi={callApi} />
-            <Results data={state.data} />
-        <Footer />
-
-      
-    </div>
+    <>
+      <Header />
+      <div className='url'>URL: {reqParams.url}</div>
+      <div className='req'>Request Method: {reqParams.method}</div>
+      <Form handleApiCall={callApi} />
+      <Results data={data} method={reqParams.method} bodyData={bodyData} />
+      <Footer />
+    </>
   )
 }
 

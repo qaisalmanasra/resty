@@ -1,59 +1,57 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react'
+import './form.scss'
 
-import './form.scss';
+function Form(props) {
+  const [click, setClick] = useState('GET');
+  const [url, setUrl] = useState('');
+  const [body, setBody] = useState({});
 
 
-function Form({callApi}) {
-  const url_section=useRef()
-  const selectmethod=useRef()
-  const [method,setmethod]=useState(false)
-  const [showerror,setshowerorr]=useState(false)
-
-  const handleSubmit =( e )=> {
+  const handleSubmit = e => {
     e.preventDefault();
-    let text_url= url_section.current.value
-    if(method==false||text_url.length<1){
-      setshowerorr(true)
-    }else{
-      setshowerorr(false)
-      const formData = {
-        method:method,
-        url: text_url,
-      };
-      callApi(formData)  
-    }
+    const formData = {
+      method: click,
+      url: url,
+    };
+    const bodyData = {
+      body: body,
+    };
+    props.handleApiCall(formData, bodyData);
   }
 
-
-  useEffect(()=>{
-       selectmethod.current.childNodes.forEach((a)=>(
-        a.addEventListener("click", saveData)
-    ))          
-  },[])
-  const saveData=(e)=>{
-    setmethod(e.currentTarget.textContent)
-    selectmethod.current.childNodes.forEach((a)=>(a.classList.remove("active")))
-    e.currentTarget.classList.add("active")
+  const handelClick = e => {
+    e.preventDefault();
+    setClick(e.target.value);
+  }
+  const handelUrl = e => {
+    e.preventDefault();
+    setUrl(e.target.value);
+  }
+  const handleBody = e => {
+    e.preventDefault();
+    setBody(e.target.value);
   }
 
   return (
     <>
-      <form >
-        <label >
+      <form onSubmit={handleSubmit}>
+        <label className='label-input'>
           <span>URL: </span>
-          <input name='url' type='text' ref={url_section} placeholder="insert url here ....."/>
-          <button type="submit" onClick={handleSubmit} style={{cursor:"pointer"}} data-testid="submit">GO!</button>
+          <input name='url' type='text' className='input' placeholder='Inter a URL' data-testid='input' onChange={handelUrl} />
+          <button type="submit" className='btn' data-testid='submit'>GO!</button>
         </label>
-        <label className="methods" ref={selectmethod}>
-          <span id="get">GET</span>
-          <span id="post">POST</span>
-          <span id="put">PUT</span>
-          <span id="delete">DELETE</span>
+        <label className="methods">
+          <div className='btns'>
+            <button id="get" data-testid='get' onClick={handelClick} value='GET'>GET</button>
+            <button id="post" data-testid='post' onClick={handelClick} value='POST'>POST</button>
+            <button id="put" data-testid='put' onClick={handelClick} value='PUT'>PUT</button>
+            <button id="delete" onClick={handelClick} value='DELETE'>DELETE</button>
+          </div>
         </label>
+        {click === 'POST' || click === 'PUT' ? <input type='JSON' className='label-input-body' onChange={handleBody} placeholder='Write a json object' /> : null}
       </form>
-      {showerror==true?<p style={{color:"red"}}>You Need Insert Method And Url</p>:<></>}
-  </>
-)
+    </>
+  )
 }
 
-export default Form
+export default Form;
