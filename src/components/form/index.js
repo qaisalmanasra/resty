@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import './form.scss'
 
 function Form(props) {
@@ -6,7 +6,7 @@ function Form(props) {
   const [url, setUrl] = useState('');
   const [body, setBody] = useState({});
 
-
+  const selectmethod = useRef()
   const handleSubmit = e => {
     e.preventDefault();
     const formData = {
@@ -32,6 +32,14 @@ function Form(props) {
     setBody(e.target.value);
   }
 
+  useEffect(() => {
+    selectmethod.current.childNodes.forEach((a) => (a.addEventListener("click", saveData)))
+  }, [])
+  const saveData = (e) => {
+    selectmethod.current.childNodes.forEach((a) => (a.classList.remove("active")))
+    e.currentTarget.classList.add("active")
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -41,7 +49,7 @@ function Form(props) {
           <button type="submit" className='btn' data-testid='submit'>GO!</button>
         </label>
         <label className="methods">
-          <div className='btns'>
+          <div className='btns' ref={selectmethod}>
             <button id="get" data-testid='get' onClick={handelClick} value='GET'>GET</button>
             <button id="post" data-testid='post' onClick={handelClick} value='POST'>POST</button>
             <button id="put" data-testid='put' onClick={handelClick} value='PUT'>PUT</button>
@@ -52,6 +60,7 @@ function Form(props) {
       </form>
     </>
   )
+
 }
 
 export default Form;
