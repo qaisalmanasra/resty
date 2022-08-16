@@ -29,6 +29,7 @@ function App() {
       <div className='url'>URL: {reqParams.url}</div>
       <div className='req'>Request Method: {reqParams.method}</div>
       <Form handleApiCall={callApi} />
+
       <Results data={data} method={reqParams.method} bodyData={bodyData} />
       <Footer />
     </>

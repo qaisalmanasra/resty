@@ -12,4 +12,7 @@
 * Clicks the “Go” button
 * Application fetches data from the URL given, with the method specified
 * Displays the response headers and results separately
-Both headers and results should be “pretty printed” JSON
+* Both headers and results should be “pretty printed” JSON
+## Lab 27 features 
+![get](./getTest.jpg)
+![post](./postTest.jpg)
