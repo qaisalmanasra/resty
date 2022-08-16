@@ -55,16 +55,16 @@ function Form(props) {
   }
 
 
-  const handelPost = (e) => {
+  // const handelPost = (e) => {
     
-    axios.post(url, body)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  //   axios.post(url, body)
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
 
   useEffect(() => {
     selectmethod.current.childNodes.forEach((a) => (a.addEventListener("click", saveData)))
