@@ -24,8 +24,8 @@ function Form(props) {
       props.handleApiCall(formData, bodyData)
        
 
-        click === 'POST' ? 
-        axios
+        if (click === 'POST'){
+          axios
           .post(formData.url, JSON.parse(body))
           .then((res) => {
             setUrl(e.target.value);
@@ -34,7 +34,9 @@ function Form(props) {
           .catch((err) => {
             console.log(err);
           }) 
-        : null;
+        } 
+        
+        
 
     
      
